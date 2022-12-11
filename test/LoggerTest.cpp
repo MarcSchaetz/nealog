@@ -1,4 +1,5 @@
 #include "nealog/Logger.h"
+#include "nealog/Formatter.h"
 #include "nealog/Error.h"
 #include "nealog/Sink.h"
 #include <array>
@@ -6,9 +7,9 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <thread>
 #include <trompeloeil.hpp>
 #include <vector>
-#include <thread>
 
 using namespace nealog;
 
@@ -223,4 +224,14 @@ TEST_CASE("all sinks should write the message", TAG)
 
     REQUIRE(firstStream.str() == "Message");
     REQUIRE(secondStream.str() == "Message");
+}
+
+
+
+TEST_CASE("format output with formatter", TAG)
+{
+    std::ostringstream stream;
+    auto logger = getLoggerWithStreamSink(stream);
+    logger->log(Severity::Error, nlFormat("Message {}", "but with arg"));
+    REQUIRE(stream.str() == "Message but with arg");
 }
