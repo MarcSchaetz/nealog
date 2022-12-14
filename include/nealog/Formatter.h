@@ -11,20 +11,14 @@ namespace nealog
 {
 
 
-
-
-    class FormatterBase
-    {
-      protected:
-        FormatterBase() = default;
-    };
-
-    /*
+    /*!
      * The formatter is a wrapper around the Fmt library
      */
-    class Formatter : public FormatterBase
+    class Formatter
     {
       public:
+        Formatter() = default;
+
         template <typename... TArg>
         auto format(const std::string_view& msg, TArg&&... args) -> std::string
         {
