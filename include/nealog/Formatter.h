@@ -1,6 +1,7 @@
 #pragma once
 
 #include "fmt/compile.h"
+#include <algorithm>
 #include <fmt/core.h>
 #include <utility>
 
@@ -26,6 +27,42 @@ namespace nealog
         }
     };
 
+
+
+    constexpr const char* MESSAGE_SUBSTITUTOR = "%(message)";
+
+    class PatternFormatter : public Formatter
+    {
+        using Formatter::format;
+
+      public:
+        PatternFormatter(const std::string_view& pattern);
+
+
+        /*!
+         *  If pattern_ is unset the message is returned as the normal Formatter formats it.
+         */
+        template <typename... TArg>
+        auto format(const std::string_view& msg, TArg&&... args) -> std::string
+        {
+            std::string messageToFormat{msg};
+
+            if (!pattern_.empty())
+            {
+                messageToFormat = wrapMessageWithPattern(msg);
+            }
+
+            return Formatter::format(messageToFormat, std::forward<TArg>(args)...);
+        }
+
+        auto getPattern() const -> const std::string&;
+
+      private:
+        auto wrapMessageWithPattern(const std::string_view& msg) -> std::string;
+
+      private:
+        std::string pattern_{};
+    };
 
 
 } // namespace nealog
