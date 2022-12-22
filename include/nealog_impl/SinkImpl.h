@@ -1,9 +1,15 @@
 #pragma once
 
+#include <cstdio>
+#include <filesystem>
+#include <ostream>
+#include <string>
+#include <string_view>
+
 #ifndef NEALOG_HEADERONLY
 #include "nealog/Sink.h"
 #endif // !NEALOG_HEADERONLY
- 
+
 #include <algorithm>
 #include <cstring>
 #include <iostream>
@@ -146,6 +152,50 @@ namespace nealog
      * StdOutSink
      ******************************/
     NL_INLINE StdOutSink::StdOutSink() : StreamSink(std::cout)
+    {
+    }
+
+
+
+    /******************************
+     * FileSink
+     ******************************/
+    NL_INLINE FileSink::FileSink(const std::filesystem::path& path) : Sink()
+    {
+        openFile(path.string());
+    }
+
+
+
+    NL_INLINE auto FileSink::getType() -> SinkType
+    {
+        return SinkType::File;
+    }
+
+    NL_INLINE auto FileSink::write(Severity, std::string_view msg) -> void
+    {
+        mutex_.lock();
+		fileStream_ << msg;
+        mutex_.unlock();
+    }
+
+
+
+    NL_INLINE auto FileSink::flush() -> void
+    {
+        fileStream_.flush();
+    }
+
+
+
+    NL_INLINE auto FileSink::openFile(std::string_view path) -> void
+    {
+        fileStream_.open(path.data());
+    }
+
+
+
+    NL_INLINE auto FileSink::closeFile() -> void
     {
     }
 

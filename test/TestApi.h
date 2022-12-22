@@ -1,8 +1,11 @@
 #pragma once
 
-#include "nealog/Logger.h"
 #include "catch2/catch_test_macros.hpp"
+#include "nealog/Logger.h"
+#include <fstream>
 #include <memory>
+#include <string>
+#include <string_view>
 
 
 class TestFacade
@@ -29,4 +32,12 @@ template <typename T>
 inline auto requirePointerNotNull(T* pointer) -> void
 {
     REQUIRE(pointer != nullptr);
+}
+
+inline auto readTextFromFile(const std::string_view& path) -> std::string
+{
+    std::ifstream file{path.data()};
+    std::string fileContent{};
+    std::getline(file, fileContent);
+    return fileContent;
 }

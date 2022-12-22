@@ -1,6 +1,8 @@
 #pragma once
 
 #include "nealog/Severity.h"
+#include <filesystem>
+#include <fstream>
 #include <memory>
 #include <mutex>
 #include <ostream>
@@ -16,6 +18,7 @@ namespace nealog
     {
         Noop,
         Stream,
+        File,
     };
 
 
@@ -84,6 +87,25 @@ namespace nealog
     {
       public:
         StdOutSink();
+    };
+
+
+
+    class FileSink : public Sink
+    {
+
+      public:
+        FileSink(const std::filesystem::path& path);
+        auto getType() -> SinkType override;
+        auto write(Severity, std::string_view) -> void override;
+        auto flush() -> void override;
+
+      private:
+        auto openFile(std::string_view path) -> void;
+        auto closeFile() -> void;
+
+      private:
+        std::ofstream fileStream_{};
     };
 
 
