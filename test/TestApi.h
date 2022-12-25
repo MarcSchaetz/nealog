@@ -3,6 +3,7 @@
 #include "catch2/catch_test_macros.hpp"
 #include "nealog/Logger.h"
 #include <fstream>
+#include <sstream>
 #include <memory>
 #include <string>
 #include <string_view>
@@ -37,7 +38,15 @@ inline auto requirePointerNotNull(T* pointer) -> void
 inline auto readTextFromFile(const std::string_view& path) -> std::string
 {
     std::ifstream file{path.data()};
-    std::string fileContent{};
-    std::getline(file, fileContent);
-    return fileContent;
+    std::string line{};
+    std::ostringstream lines;
+    while (std::getline(file, line))
+    {
+		lines << line << "\n";
+    }
+
+	auto str = lines.str();
+	str.erase(str.length() -1);
+
+    return str;
 }

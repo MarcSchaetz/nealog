@@ -3,6 +3,7 @@
 #include "nealog/Severity.h"
 #include <filesystem>
 #include <fstream>
+#include <ios>
 #include <memory>
 #include <mutex>
 #include <ostream>
@@ -95,13 +96,13 @@ namespace nealog
     {
 
       public:
-        FileSink(const std::filesystem::path& path);
+        FileSink(const std::filesystem::path& path, bool truncate = false);
         auto getType() -> SinkType override;
         auto write(Severity, std::string_view) -> void override;
         auto flush() -> void override;
 
       private:
-        auto openFile(std::string_view path) -> void;
+        auto openFile(std::string_view path, std::ios_base::openmode) -> void;
         auto closeFile() -> void;
 
       private:

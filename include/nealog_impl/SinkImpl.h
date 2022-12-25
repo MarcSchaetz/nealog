@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include <filesystem>
+#include <ios>
 #include <ostream>
 #include <string>
 #include <string_view>
@@ -160,9 +161,10 @@ namespace nealog
     /******************************
      * FileSink
      ******************************/
-    NL_INLINE FileSink::FileSink(const std::filesystem::path& path) : Sink()
+    NL_INLINE FileSink::FileSink(const std::filesystem::path& path, bool truncate) : Sink()
     {
-        openFile(path.string());
+		std::ios_base::openmode mode = truncate ? std::ios_base::trunc : std::ios_base::app;
+        openFile(path.string(), mode);
     }
 
 
@@ -188,9 +190,9 @@ namespace nealog
 
 
 
-    NL_INLINE auto FileSink::openFile(std::string_view path) -> void
+    NL_INLINE auto FileSink::openFile(std::string_view path, std::ios_base::openmode mode) -> void
     {
-        fileStream_.open(path.data());
+        fileStream_.open(path.data(), std::ios_base::out | mode);
     }
 
 
