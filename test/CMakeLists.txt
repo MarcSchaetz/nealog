@@ -11,8 +11,8 @@ else()
     target_link_libraries(nealog_test PRIVATE nealog)
 endif()
 
-target_sources(nealog_test PRIVATE LoggerTest.cpp LoggerRegistryTest.cpp NoopSinkTest.cpp SeverityTest.cpp
-                                   StreamSinkTest.cpp FormatterTest.cpp)
+target_sources(nealog_test PRIVATE LoggerTest.cpp LoggerTreeRegistryTest.cpp NoopSinkTest.cpp SeverityTest.cpp
+                                   StreamSinkTest.cpp)
 
 include(CTest)
 include(Catch)
