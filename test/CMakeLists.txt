@@ -12,7 +12,7 @@ else()
 endif()
 
 target_sources(nealog_test PRIVATE LoggerTest.cpp LoggerTreeRegistryTest.cpp NoopSinkTest.cpp SeverityTest.cpp
-                                   StreamSinkTest.cpp)
+                                   StreamSinkTest.cpp LoggerWithFormatterTests.cpp)
 
 include(CTest)
 include(Catch)

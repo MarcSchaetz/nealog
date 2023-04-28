@@ -244,7 +244,7 @@ TEST_CASE("set formatter in logger and log to stream with pattern", TAG)
     std::ostringstream stream;
     auto logger = getLoggerWithStreamSink(stream);
 
-    PatternFormatter formatter{"super %(message)"};
+    PatternFormatter formatter{"super %(msg)"};
     logger->setFormatter(formatter);
 
     auto retrievedFormatter = logger->getFormatter();

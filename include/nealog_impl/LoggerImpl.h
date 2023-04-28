@@ -76,6 +76,7 @@ namespace nealog
     NL_INLINE auto Logger::setFormatter(const PatternFormatter& formatter) -> void
     {
         formatter_ = formatter;
+		formatter_.setLoggerInfo(getName(), getSeverity());
     }
 
 

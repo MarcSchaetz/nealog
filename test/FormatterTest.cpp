@@ -55,8 +55,8 @@ TEST_CASE_METHOD(FormatterTestFixture, "should concat string and float", TAG)
 // learning test
 TEST_CASE("replace all occurrences of a string inside another string", TAG)
 {
-    std::string test = "%(message)foobar mi%(message)nim sint cillum sint consectetur cupidatat.";
-    std::string substitutor{"%(message)"};
+    std::string test = "%(msg)foobar mi%(msg)nim sint cillum sint consectetur cupidatat.";
+    std::string substitutor{"%(msg)"};
 
     auto position = test.find(substitutor);
 
